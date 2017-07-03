@@ -13,5 +13,5 @@ setup(
     long_description=open('README.md').read(),
     requires=requirements,
     include_package_data=True,
-    description='Ultility to track IP change in realtime'
+    description='Utility to track IP change in realtime'
 )
