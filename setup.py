@@ -16,7 +16,7 @@ setup(
     py_modules=['iptracker'],
     entry_points={
         'console_scripts': [
-            'public_ip_tracker = iptracker:startup',
+            'iptracker = iptracker:startup',
         ]
     },
     platforms='any',
