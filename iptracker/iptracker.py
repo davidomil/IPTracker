@@ -2,7 +2,7 @@
 import gzip
 import os
 from urllib.request import urlopen, urlretrieve
-from json import load
+from json import loads
 import time
 
 import errno
@@ -70,7 +70,7 @@ def get_myIP():
     """ Gets this computers public ip address
     :return: public ip address
     """
-    return load(urlopen('https://api.ipify.org/?format=json'))['ip']
+    return loads(urlopen('https://api.ipify.org/?format=json').read().decode('utf8'))['ip']
 
 
 def print_ip_info(data, ip):
