@@ -11,12 +11,12 @@ setup(
     author_email='david@orrisystems.com',
     long_description=open('README.md').read(),
     include_package_data=True,
-    description='Utility to track IP change in realtime',
+    description='Utility to track public IP change in realtime',
     packages=find_packages(exclude=['examples', 'tests']),
     py_modules=['iptracker'],
     entry_points={
         'console_scripts': [
-            'iptracker = iptracker:main',
+            'public_ip_tracker = main:startup',
         ]
     },
     install_requires=requirements
