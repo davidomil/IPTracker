@@ -2,6 +2,8 @@
 
 Database_URL = 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz'
 
+Save_URL = '~/.iptracler/database/'
+
 Delay_ms = 1000
 
 

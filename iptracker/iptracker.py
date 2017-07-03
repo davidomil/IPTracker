@@ -3,12 +3,12 @@ import gzip
 import os
 from urllib.request import urlopen, urlretrieve
 from json import load
-
 import time
 
-import pygeoip
+import errno
+from helper import *
 
-from iptracker.helper import *
+import pygeoip
 
 
 def exists(path):
@@ -20,12 +20,23 @@ def exists(path):
     return True
 
 
+def ensure_dir(dirname):
+    """
+    Ensure that a named directory exists; if it does not, attempt to create it.
+    """
+    try:
+        os.makedirs(dirname)
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
+
 def download_database():
     """ Download ip location Database
     :return:
     """
+    ensure_dir(Save_URL)
     try:
-        urlretrieve(Database_URL, "GeoLiteCity.dat.gz")
+        urlretrieve(Database_URL, Save_URL + "GeoLiteCity.dat.gz")
     except Exception:
         raise CouldNotDownload()
 
@@ -35,13 +46,13 @@ def extract_database():
     :return:
     '''
     try:
-        with gzip.open('GeoLiteCity.dat.gz', 'rb') as infile:
-            with open('GeoLiteCity.dat', 'wb') as outfile:
+        with gzip.open(Save_URL + 'GeoLiteCity.dat.gz', 'rb') as infile:
+            with open(Save_URL + 'GeoLiteCity.dat', 'wb') as outfile:
                 for line in infile:
                     outfile.write(line)
     except Exception:
         raise CouldNotExtract()
-    delete_file('GeoLiteCity.dat.gz')
+    delete_file(Save_URL + 'GeoLiteCity.dat.gz')
 
 
 def delete_file(url):
@@ -74,7 +85,7 @@ def print_ip_info(data, ip):
 
 
 def main(args):
-    if not exists('GeoLiteCity.dat'):
+    if not exists(Save_URL + 'GeoLiteCity.dat'):
         if str(input('Database was not found. Do you want me to download it for you? [y/n]')).lower() == 'y':
             try:
                 download_database()
@@ -93,7 +104,7 @@ def main(args):
             print('Database was not downloaded. Exiting!')
             quit()
 
-    gip = pygeoip.GeoIP('GeoLiteCity.dat')  # import database
+    gip = pygeoip.GeoIP(Save_URL + 'GeoLiteCity.dat')  # import database
     last_ip = ''
     try:
         while True:
