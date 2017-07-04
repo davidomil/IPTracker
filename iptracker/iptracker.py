@@ -70,7 +70,7 @@ def get_myIP():
     """ Gets this computers public ip address
     :return: public ip address
     """
-    return loads(urlopen('https://api.ipify.org/?format=json').read().decode('utf8'))['ip']
+    return loads(urlopen(IP_URL).read().decode('utf8'))['ip']
 
 
 def print_ip_info(data, ip):
